@@ -49,7 +49,7 @@ I have worked on several projects and internships focused on solving real-world 
 
 
 
-### 🏢 Backend & Automation Intern — MediaTechTemple
+### -> Backend & Automation Intern — MediaTechTemple
 
 During my internship at MediaTechTemple, I worked on reducing manual effort involved in collecting news and government job updates. The team previously gathered this information manually from newspapers and recruitment portals. I automated this workflow by building data extraction pipelines using Python, Selenium, and Chromium.
 
@@ -58,14 +58,12 @@ During my internship at MediaTechTemple, I worked on reducing manual effort invo
 - First onsite experience — worked closely with a team, received mentor feedback, and improved solutions iteratively
 
 
-
-### 🎓 Amazon ML Summer School '25
+### -> Amazon ML Summer School '25
 
 Selected for the Amazon ML Summer School, ranking among the **top 3,000 out of 60,000+** candidates across India. Learned the fundamentals of machine learning, deep learning, and neural networks directly from Amazon researchers.
 
----
 
-### 🌾 AgriVision AI — Smart India Hackathon Finalist
+### -> AgriVision AI — Smart India Hackathon Finalist
 
 [AgriVision AI](https://frontend-taupe-rho-64.vercel.app/) is a full-stack precision agriculture platform built during the Smart India Hackathon Finals.
 
@@ -73,17 +71,15 @@ Selected for the Amazon ML Summer School, ranking among the **top 3,000 out of 6
 - Processes live IoT sensor streams (soil NPK, NDVI, weather) — directly relevant to sensor-based AI
 - This experience is what drives my interest in agricultural AI systems
 
----
 
-### 💬 WhatsApp Business AI Agent
+### -> WhatsApp Business AI Agent
 
 Built a [WhatsApp Business AI Agent](https://github.com/itvi-1234/whatsapp-ai-agent) that handles large volumes of customer chats automatically using AI and automation pipelines.
 
----
 
 Through these experiences, I have gained hands-on experience with Python, C++, React, Flask, Selenium, and AI/ML tools, while actively contributing to open-source projects using Git.
 
-*(Resume: [Link to Resume])*
+*(Resume: [[Link to Resume](https://drive.google.com/file/d/1fXJrerC43ye37Ah3Air-tqLyje1yRMHH/view?usp=sharing)])*
 
 ---
 
@@ -97,13 +93,14 @@ I actively contribute to open-source projects across different domains — from 
 
 [Headlamp](https://headlamp.dev/) is a CNCF project providing a Kubernetes dashboard. I contributed several improvements to the frontend and backend of this tool.
 
+- Added resource allocation summaries on the Node Details page
+- Improved error messages shown when cluster actions fail
 - Fixed a TypeScript type issue causing runtime errors in the version display
 - Added user-friendly toast notifications for failed port-forward operations
 - Removed legacy Webpack fallback code that was creating unnecessary bundle overhead
-- Added resource allocation summaries on the Node Details page
-- Improved error messages shown when cluster actions fail
 
-**→ [All merged PRs](https://github.com/kubernetes-sigs/headlamp/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 13 closed PRs, all approved
+
+**→ [All merged PRs](https://github.com/kubernetes-sigs/headlamp/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 14 Merged PRs, all approved
 
 ---
 
@@ -111,15 +108,16 @@ I actively contribute to open-source projects across different domains — from 
 
 [JSON Schema Studio](https://github.com/ioflux-org/studio-json-schema) is an open-source visual editor for JSON Schemas. I contributed multiple fixes and features to improve how schemas are visualized.
 
-- Fixed a bug where schemas with only a `type` keyword were showing the wrong node color
+- Added stable E2e testing in the repository.
 - Fixed cyclic `$ref` schema back-edge color alignment for clearer graph rendering
+- Fixed a bug where schemas with only a `type` keyword were showing the wrong node color
 - Added edge highlighting when a node is clicked, making it easier to trace relationships
 - Fixed a `processAST` bug that was causing graph rendering to fail in certain schema structures
 - Implemented bidirectional interaction using AST and JSON pointer for better navigation
 - Added navbar icons to fullscreen mode for improved usability
 - Added SEO meta tags for better search indexing and social sharing
 
-**→ [All merged PRs](https://github.com/ioflux-org/studio-json-schema/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 13 closed PRs, all approved
+**→ [All merged PRs](https://github.com/ioflux-org/studio-json-schema/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 12 Merged PRs, all approved
 
 ---
 
