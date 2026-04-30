@@ -47,7 +47,7 @@ I have worked on multiple projects where I built systems to automate tasks and p
 
 I have worked on several projects and internships focused on solving real-world problems through automation and intelligent systems.
 
----
+
 
 ### 🏢 Backend & Automation Intern — MediaTechTemple
 
@@ -57,7 +57,7 @@ During my internship at MediaTechTemple, I worked on reducing manual effort invo
 - Significantly reduced repetitive manual work while improving reliability
 - First onsite experience — worked closely with a team, received mentor feedback, and improved solutions iteratively
 
----
+
 
 ### 🎓 Amazon ML Summer School '25
 
