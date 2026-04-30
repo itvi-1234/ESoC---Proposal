@@ -132,8 +132,8 @@ To prepare for this project, I have already contributed bug fixes directly to `s
 - **DetectorPipeline Error Fix:** An invalid pipeline configuration would fail silently instead of raising an error. Fixed the missing `raise` keyword so errors surface properly.
 - **STRAY Refactor:** The STRAY anomaly detection algorithm was classified as a "Transformer" instead of a "Detector", making it invisible to benchmarking tools. Rewrote it to fit the correct base class.
 
-**→ [PR: fix-sublof-pipeline-bugs](https://github.com/itvi-1234/sktime/pull/new/fix-sublof-pipeline-bugs)**
-**→ [PR: refactor-stray-detector](https://github.com/itvi-1234/sktime/pull/new/refactor-stray-detector)**
+**→ [PR: fix-sublof-pipeline-bugs](https://github.com/sktime/sktime/pull/10110)**
+**→ [PR: refactor-stray-detector](https://github.com/sktime/sktime/pull/10111)**
 
 ---
 
