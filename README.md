@@ -18,6 +18,8 @@
 
 ## 1. Basic Information
 
+<div align="center">
+
 | Field | Detail |
 |---|---|
 | **Name** | Sumit Goyal |
@@ -26,6 +28,8 @@
 | **Contact** | +91 9460357477 |
 | **LinkedIn** | [Sumit Goyal](https://linkedin.com/in/itvi-1234) |
 | **TimeZone** | IST (GMT+05:30) |
+
+</div>
 
 ---
 
