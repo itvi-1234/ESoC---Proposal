@@ -74,7 +74,7 @@ Selected for the Amazon ML Summer School, ranking among the **top 3,000 out of 6
 
 ### -> WhatsApp Business AI Agent
 
-Built a [WhatsApp Business AI Agent](https://github.com/itvi-1234/whatsapp-ai-agent) that handles large volumes of customer chats automatically using AI and automation pipelines.
+Built a [WhatsApp Business AI Agent](https://github.com/itvi-1234/WP_AI_AGENT) that handles large volumes of customer chats automatically using AI and automation pipelines.
 
 
 Through these experiences, I have gained hands-on experience with Python, C++, React, Flask, Selenium, and AI/ML tools, while actively contributing to open-source projects using Git.
