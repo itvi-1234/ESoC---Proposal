@@ -450,13 +450,4 @@ I have no other commitments this summer. I can dedicate **30–35 hours per week
 
 ---
 
-## 11. Why Me?
-
-1. **I know the domain.** AgriVision AI processes live agricultural sensor data — the same type of problem, just applied to tractor safety.
-2. **I am already in the code.** I submitted and fixed real bugs in `sktime`'s detection module before writing this proposal.
-3. **I have contributed at scale.**  I know how to contribute consistently in large open-source projects.
-4. **I build end-to-end.** I don't just write models — I build complete pipelines, from raw sensor input to dashboard alerts, as shown by AgriVision.
-5. **I write clearly.** I believe documentation is as important as the code itself.
-
----
 
