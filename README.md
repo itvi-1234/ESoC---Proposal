@@ -162,12 +162,16 @@ We will build a step-by-step pipeline using `sktime`:
 3. **Detect Anomalies** — We train the AI on data from normal, safe operation. When a rock enters, the pattern looks different, and the AI flags it.
 4. **Measure Success** — We build custom tools to measure: Did we catch it? How many false alarms? How many milliseconds of warning did we give?
 5. **Compare Models** — We build a benchmarking tool to run different algorithms side by side and find the best one.
+6. **Explain the Results (SHAP)** — We will integrate Explainable AI tools like SHAP so the system doesn't just trigger an alarm, but actually tells the engineers *which specific sensor* (e.g., vibration vs. mechanics) detected the rock.
 
 ---
 
 ## 7. Pipeline Overview
 
 ```
+
+<div align="center">
+
   Tractor Sensors (Vibration + Acoustics + Mechanics)
                           │
                           ▼
@@ -204,6 +208,8 @@ We will build a step-by-step pipeline using `sktime`:
          │  Compare all models         │
          │  Auto-tune best settings    │
          └─────────────────────────────┘
+
+</div>
 ```
 
 ---
