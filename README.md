@@ -427,18 +427,18 @@ shap.summary_plot(shap_values, X_event_window, feature_names=feature_names)
 ```
 ---
 
-## 9. Timeline — May 25 to August 25
+## 9. Timeline — June 9 to September 9
 
 The project runs for 3 months across 6 phases. Each phase maps directly to one of the implementation sections above.
 
 | Phase | Dates | Work | Deliverable |
 |---|---|---|---|
-| **Phase 1 — Community Bonding & Setup** | May 25 – Jun 7 | Understand the sponsor dataset schema, discuss data format with mentors, set up the local dev environment, write initial design docs | Dev environment ready, data exploration notebook, alignment with mentor on API design |
-| **Phase 2 — Feature Extraction** | Jun 8 – Jun 21 | Build `SensorFFTFeatureExtractor`, integrate with `WindowSummarizer` + `FeatureUnion`, write tests | Merged PR: feature extraction transformer with full test coverage |
-| **Phase 3 — Evaluation Metrics** | Jun 22 – Jul 5 | Implement `DetectionTPR`, `DetectionFPR`, and `AdvanceDetectionTime` as proper `sktime` metric classes | Merged PR: 3 new detection metrics with docs and examples |
-| **Phase 4 — Benchmarking** *(Midterm)* | Jul 6 – Jul 19 | Build `DetectionBenchmark`, wire up all algorithms and metrics, run on sponsor data | Merged PR: `DetectionBenchmark` class; midterm evaluation submitted |
-| **Phase 5 — Auto-Tuning** | Jul 20 – Aug 2 | Build `AutoTunedDetector` with `TimeSeriesSplit` cross-validation and `best_params_` output | Merged PR: `AutoTunedDetector` with tests |
-| **Phase 6 — Explainability & Wrap-up** | Aug 3 – Aug 25 | SHAP integration, final documentation, `examples/benchmarking_detection.ipynb` notebook, PR cleanup | Stretch goal PR (SHAP); tutorial notebook; all PRs finalized and ready for review |
+| **Phase 1 — Community Bonding & Setup** | Jun 9 – Jun 22 | Understand the sponsor dataset schema, discuss data format with mentors, set up the local dev environment, write initial design docs | Dev environment ready, data exploration notebook, alignment with mentor on API design |
+| **Phase 2 — Feature Extraction** | Jun 23 – Jul 6 | Build `SensorFFTFeatureExtractor`, integrate with `WindowSummarizer` + `FeatureUnion`, write tests | Merged PR: feature extraction transformer with full test coverage |
+| **Phase 3 — Evaluation Metrics** | Jul 7 – Jul 20 | Implement `DetectionTPR`, `DetectionFPR`, and `AdvanceDetectionTime` as proper `sktime` metric classes | Merged PR: 3 new detection metrics with docs and examples |
+| **Phase 4 — Benchmarking** *(Midterm)* | Jul 21 – Aug 3 | Build `DetectionBenchmark`, wire up all algorithms and metrics, run on sponsor data | Merged PR: `DetectionBenchmark` class; midterm evaluation submitted |
+| **Phase 5 — Auto-Tuning** | Aug 4 – Aug 17 | Build `AutoTunedDetector` with `TimeSeriesSplit` cross-validation and `best_params_` output | Merged PR: `AutoTunedDetector` with tests |
+| **Phase 6 — Explainability & Wrap-up** | Aug 18 – Sep 9 | SHAP integration, final documentation, `examples/benchmarking_detection.ipynb` notebook, PR cleanup | Stretch goal PR (SHAP); tutorial notebook; all PRs finalized and ready for review |
 
 > **Note:** I plan to open draft PRs early and work iteratively so mentors can review progress throughout.
 
