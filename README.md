@@ -217,77 +217,232 @@ We will build a step-by-step pipeline using `sktime`:
 
 ---
 
-## 8. Code Examples
+## 8. Proposed Implementation
 
-### Example 1 — The Detection Pipeline
+Here is how the core pieces of this project will be built using `sktime`. These are not just illustrations — they reflect the actual design decisions I plan to implement.
 
-**What it does:** Connects data cleaning, feature extraction, and the AI model into one chain.
-**Why we need it:** Instead of running separate scripts, a single pipeline processes incoming sensor data automatically and consistently.
+---
+
+### 1 — Feature Extraction from Raw Sensor Data
+
+**What it does:** Converts raw millisecond-level vibration and acoustic readings into structured summaries (features) that an AI model can actually work with.
+**Why it matters:** Raw waveforms are noisy and hard to compare. By computing things like the "spikiness" (Kurtosis) or average energy (RMS) of each rolling 50ms window, we give the AI a much cleaner signal to learn from.
+
+```python
+from sktime.transformations.series.summarize import WindowSummarizer
+from sktime.transformations.compose import FeatureUnion
+
+# Summarize each 50ms window with useful statistics
+time_domain_features = WindowSummarizer(
+    lag_feature={
+        "mean":     [{"window_length": 50}],   # average level
+        "var":      [{"window_length": 50}],   # how much it fluctuates
+        "kurt":     [{"window_length": 50}],   # how "spiky" the signal is
+    },
+    n_jobs=-1,
+)
+
+# Custom class (to be built) — computes frequency-band energy using FFT
+freq_domain_features = SensorFFTFeatureExtractor(n_bands=8)
+
+# Merge both into one feature vector per window
+full_features = FeatureUnion(transformer_list=[
+    ("time", time_domain_features),
+    ("freq", freq_domain_features),
+])
+```
+
+---
+
+### 2 — Full Detection Pipeline
+
+**What it does:** Chains data cleaning, feature extraction, and the detection model into a single object that can be trained and deployed end-to-end.
+**Why it matters:** A proper pipeline ensures every piece of incoming sensor data is processed in exactly the same way every time — no manual steps, no inconsistencies.
 
 ```python
 from sktime.detection.compose import DetectorPipeline
+from sktime.transformations.series.adapt import TabularToSeriesAdaptor
+from sklearn.preprocessing import RobustScaler
+from sktime.detection.lof import SubLOF
 
 pipeline = DetectorPipeline(steps=[
-    ("clean_data", RobustScaler()),
-    ("find_patterns", WindowSummarizer(lag_feature={"mean": [50]})),
-    ("ai_detector", SubLOF(n_neighbors=20, novelty=True)),
+    # Step 1: Scale each sensor channel so they're comparable
+    ("scaler",   TabularToSeriesAdaptor(RobustScaler())),
+
+    # Step 2: Extract features from rolling windows
+    ("features", full_features),
+
+    # Step 3: Detect anomalies using multivariate LOF
+    #         novelty=True means it was trained on "normal" data only
+    ("detector", SubLOF(n_neighbors=20, window_size=50, novelty=True)),
 ])
 
-# Train on normal field data only
-pipeline.fit(normal_tractor_data)
+# Train only on normal field operation data
+pipeline.fit(X_normal_operation)
 
-# Run on live data to spot the rock
-danger_scores = pipeline.predict_scores(live_field_data)
+# Score the full field recording — higher = more anomalous
+scores = pipeline.predict_scores(X_live_field)
+
+# Get the actual event intervals detected
+events = pipeline.predict(X_live_field)
 ```
 
 ---
 
-### Example 2 — Advance Detection Time Metric
+### 3 — Advance Detection Time Metric
 
-**What it does:** Measures how many milliseconds before the actual event our AI gave the warning.
-**Why we need it:** Standard metrics only say "right" or "wrong". For this project, a warning that comes *after* the blade breaks is useless. We need to reward *early* detection.
+**What it does:** Measures how many milliseconds *before* the actual impact our model issued the warning.
+**Why it matters:** Standard AI metrics just say "right" or "wrong". In this project, a correct detection that arrives 5ms *after* impact is worthless. This metric captures the safety value of early detection.
 
 ```python
-class AdvanceDetectionTime:
-    def calculate_score(self, actual_event_time, predicted_event_time):
-        # How many ms of warning did we give?
-        warning_time = actual_event_time - predicted_event_time
-        return warning_time
+import numpy as np
+from sktime.performance_metrics.detection import BaseDetectionMetric
+
+class AdvanceDetectionTime(BaseDetectionMetric):
+    """
+    For each true event, finds the earliest prediction within a
+    tolerance window and measures how far ahead it came.
+    A higher score means we warned the operator earlier.
+    """
+
+    def __init__(self, margin_ms=200):
+        self.margin_ms = margin_ms  # look-back window in ms
+
+    def _evaluate(self, y_true, y_pred, X=None):
+        advance_times = []
+
+        for true_onset in y_true["ilocs"]:
+            # Find any predictions within the tolerance window before the event
+            early_preds = y_pred["ilocs"][
+                (y_pred["ilocs"] >= true_onset - self.margin_ms) &
+                (y_pred["ilocs"] <  true_onset)
+            ]
+            if len(early_preds) > 0:
+                # Best case: earliest prediction we made
+                advance_times.append(true_onset - early_preds.min())
+
+        return np.mean(advance_times) if advance_times else 0.0
+
+# Usage
+metric = AdvanceDetectionTime(margin_ms=200)
+score = metric(y_true_events, y_predicted_events)
+print(f"Average advance warning: {score:.1f} ms")
 ```
 
 ---
 
-### Example 3 — Auto-Tuning the Best Settings
+### 4 — Model Benchmarking
 
-**What it does:** Automatically tests different AI sensitivity levels and picks the one that catches the most events with the fewest false alarms.
-**Why we need it:** Guessing the right AI settings by hand is not reliable. This tool ensures the manufacturer always ships the most accurate and safest model.
+**What it does:** Runs multiple detection algorithms on the same dataset and produces a comparison table of their performance scores.
+**Why it matters:** There is no single "best" anomaly detector for all data. The benchmarking tool lets us rapidly evaluate SubLOF, STRAY, HMM, and Isolation Forest on the sponsor's real dataset and pick the winner objectively.
 
 ```python
-from sktime.detection.compose import AutoTunedDetector
+from sktime.benchmarking.detection import DetectionBenchmark  # to be built
+from sktime.performance_metrics.detection import WindowedF1Score, DetectionTPR
 
-tuner = AutoTunedDetector(
-    estimator=SubLOF(),
-    param_grid={"sensitivity": [0.01, 0.05, 0.1]},
+benchmark = DetectionBenchmark(
+    estimators=[
+        ("SubLOF",          pipeline_sublof),
+        ("STRAY",           pipeline_stray),
+        ("IsolationForest", pipeline_iforest),
+    ],
+    metrics=[
+        WindowedF1Score(margin=10),
+        DetectionTPR(),
+        AdvanceDetectionTime(margin_ms=200),
+    ],
+    cv=TimeSeriesSplit(n_splits=3),
 )
 
-tuner.fit(training_data)
-print("Best setting:", tuner.best_params_)
+results = benchmark.run(X_field_data, y_true_events)
+print(results.summary())
+# ┌────────────────┬─────────┬─────────┬──────────────────────┐
+# │ Model          │ F1      │ TPR     │ Advance Time (ms)    │
+# ├────────────────┼─────────┼─────────┼──────────────────────┤
+# │ SubLOF         │ 0.87    │ 0.91    │ 143 ms               │
+# │ STRAY          │ 0.81    │ 0.85    │ 112 ms               │
+# │ IsolationForest│ 0.74    │ 0.79    │  88 ms               │
+# └────────────────┴─────────┴─────────┴──────────────────────┘
 ```
 
+---
+
+### 5 — Auto-Tuning the Best Settings
+
+**What it does:** Automatically searches different sensitivity values for the detector and picks the setting that gets the best score using time-series cross-validation.
+**Why it matters:** The right sensitivity threshold varies by field conditions and machinery type. Instead of guessing, this tool finds the optimal setting automatically and reproducibly.
+
+```python
+from sktime.detection.compose import AutoTunedDetector  # to be built
+from sklearn.model_selection import TimeSeriesSplit
+
+tuner = AutoTunedDetector(
+    estimator=SubLOF(n_neighbors=20, novelty=True),
+    param_grid={
+        "estimator__contamination": [0.01, 0.05, 0.1, 0.2],
+        "estimator__n_neighbors":   [10, 20, 30],
+    },
+    scoring=AdvanceDetectionTime(margin_ms=200),
+    cv=TimeSeriesSplit(n_splits=3),
+    n_jobs=-1,
+)
+
+tuner.fit(X_train, y_train)
+print("Best parameters:", tuner.best_params_)
+# Best parameters: {'contamination': 0.05, 'n_neighbors': 20}
+
+# The best model, ready to use
+best_model = tuner.best_estimator_
+```
+
+---
+
+### 6 — SHAP Explainability (Stretch Goal)
+
+**What it does:** After the model detects an event, SHAP tells us exactly which sensor channel (vibration, acoustics, or mechanics) was responsible for triggering the alarm.
+**Why it matters:** Trust is critical in safety systems. An engineer needs to know *why* the alarm went off, not just that it did. SHAP provides that sensor-level explanation.
+
+```python
+import shap
+import pandas as pd
+
+# Wrap the detector's scoring function for SHAP
+def score_fn(X_array):
+    X_df = pd.DataFrame(X_array, columns=feature_names)
+    return pipeline.predict_scores(X_df).values
+
+explainer = shap.KernelExplainer(
+    model=score_fn,
+    data=shap.sample(X_normal_features, 100),  # background = "normal" data
+)
+
+# Explain what triggered an anomaly in a specific event window
+shap_values = explainer.shap_values(X_event_window)
+
+# Output: which sensor contributed most to the anomaly score
+# Acoustics_RMS:         +0.62  ← loudest contributor
+# Vibration_Kurtosis:    +0.31
+# Mechanics_Pressure:    +0.07
+shap.summary_plot(shap_values, X_event_window, feature_names=feature_names)
+```
 ---
 
 ## 9. Timeline — May 25 to August 25
 
-| Phase | Dates | Goal |
-|---|---|---|
-| **Phase 1 — Setup** | May 25 – Jun 10 | Understand the dataset, set up the environment, map out data formats, plan the implementation with mentors |
-| **Phase 2 — Features** | Jun 11 – Jun 25 | Build the feature extraction tools (RMS, Kurtosis, FFT energy bands) |
-| **Phase 3 — Metrics** | Jun 26 – Jul 10 | Implement TPR, FPR, and Advance Detection Time as proper sktime metrics |
-| **Phase 4 — Benchmark** *(Midterm)* | Jul 11 – Jul 25 | Build the `DetectionBenchmark` tool; submit midterm evaluation |
-| **Phase 5 — Auto-Tuning** | Jul 26 – Aug 10 | Build `AutoTunedDetector` with automatic cross-validation |
-| **Phase 6 — Explainability** | Aug 11 – Aug 25 | Add SHAP to show *which sensor* triggered the alert; finalize docs and PRs |
+The project runs for 3 months across 6 phases. Each phase maps directly to one of the implementation sections above.
 
----
+| Phase | Dates | Work | Deliverable |
+|---|---|---|---|
+| **Phase 1 — Community Bonding & Setup** | May 25 – Jun 7 | Understand the sponsor dataset schema, discuss data format with mentors, set up the local dev environment, write initial design docs | Dev environment ready, data exploration notebook, alignment with mentor on API design |
+| **Phase 2 — Feature Extraction** | Jun 8 – Jun 21 | Build `SensorFFTFeatureExtractor`, integrate with `WindowSummarizer` + `FeatureUnion`, write tests | Merged PR: feature extraction transformer with full test coverage |
+| **Phase 3 — Evaluation Metrics** | Jun 22 – Jul 5 | Implement `DetectionTPR`, `DetectionFPR`, and `AdvanceDetectionTime` as proper `sktime` metric classes | Merged PR: 3 new detection metrics with docs and examples |
+| **Phase 4 — Benchmarking** *(Midterm)* | Jul 6 – Jul 19 | Build `DetectionBenchmark`, wire up all algorithms and metrics, run on sponsor data | Merged PR: `DetectionBenchmark` class; midterm evaluation submitted |
+| **Phase 5 — Auto-Tuning** | Jul 20 – Aug 2 | Build `AutoTunedDetector` with `TimeSeriesSplit` cross-validation and `best_params_` output | Merged PR: `AutoTunedDetector` with tests |
+| **Phase 6 — Explainability & Wrap-up** | Aug 3 – Aug 25 | SHAP integration, final documentation, `examples/benchmarking_detection.ipynb` notebook, PR cleanup | Stretch goal PR (SHAP); tutorial notebook; all PRs finalized and ready for review |
+
+> **Note:** I plan to open draft PRs early and work iteratively so mentors can review progress throughout, not just at phase boundaries.
+
+
 
 ## 10. Availability
 
