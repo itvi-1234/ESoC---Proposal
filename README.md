@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://github.com/sktime/sktime/raw/main/docs/source/images/sktime-logo-no-text.png" height="80" alt="sktime logo">
+  <img src="sktime.png" height="80" alt="sktime logo">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="gcos_logo.svg" height="80" alt="GC.OS logo">
+  <img src="gcos.png" height="80" alt="GC.OS logo">
 </div>
 
 <h1 align="center">ESoC 2026 — Project Proposal</h1>
