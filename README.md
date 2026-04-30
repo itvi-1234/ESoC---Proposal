@@ -440,7 +440,7 @@ The project runs for 3 months across 6 phases. Each phase maps directly to one o
 | **Phase 5 — Auto-Tuning** | Jul 20 – Aug 2 | Build `AutoTunedDetector` with `TimeSeriesSplit` cross-validation and `best_params_` output | Merged PR: `AutoTunedDetector` with tests |
 | **Phase 6 — Explainability & Wrap-up** | Aug 3 – Aug 25 | SHAP integration, final documentation, `examples/benchmarking_detection.ipynb` notebook, PR cleanup | Stretch goal PR (SHAP); tutorial notebook; all PRs finalized and ready for review |
 
-> **Note:** I plan to open draft PRs early and work iteratively so mentors can review progress throughout, not just at phase boundaries.
+> **Note:** I plan to open draft PRs early and work iteratively so mentors can review progress throughout.
 
 
 
