@@ -168,10 +168,10 @@ We will build a step-by-step pipeline using `sktime`:
 
 ## 7. Pipeline Overview
 
-```
 
 <div align="center">
 
+```
   Tractor Sensors (Vibration + Acoustics + Mechanics)
                           │
                           ▼
@@ -208,9 +208,8 @@ We will build a step-by-step pipeline using `sktime`:
          │  Compare all models         │
          │  Auto-tune best settings    │
          └─────────────────────────────┘
-
-</div>
 ```
+</div>
 
 ---
 
