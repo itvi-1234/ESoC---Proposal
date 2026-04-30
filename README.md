@@ -102,6 +102,9 @@ I actively contribute to open-source projects across different domains — from 
 
 **→ [All merged PRs](https://github.com/kubernetes-sigs/headlamp/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 14 Merged PRs, all approved
 
+Additionally, I have contributed to the official **Headlamp Kyverno Plugin**, implementing strict type-safety and refining the CEL Policy UI components.
+**→ [Kyverno Plugin PRs](https://github.com/headlamp-k8s/plugins/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)**
+
 ---
 
 ### 🔷 JSON Schema Studio — ioflux-org
@@ -117,7 +120,7 @@ I actively contribute to open-source projects across different domains — from 
 - Added navbar icons to fullscreen mode for improved usability
 - Added SEO meta tags for better search indexing and social sharing
 
-**→ [All merged PRs](https://github.com/ioflux-org/studio-json-schema/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 12 Merged PRs, all approved
+**→ [All merged PRs](https://github.com/ioflux-org/studio-json-schema/pulls?q=is%3Apr+author%3Aitvi-1234+is%3Aclosed)** — 10 Merged PRs, all approved
 
 ---
 
