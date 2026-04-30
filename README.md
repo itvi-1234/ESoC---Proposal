@@ -26,7 +26,7 @@
 | **GitHub** | [itvi-1234](https://github.com/itvi-1234) |
 | **Email** | Sumit.goyal.cse@gmail.com |
 | **Contact** | +91 9460357477 |
-| **LinkedIn** | [Sumit Goyal](https://linkedin.com/in/itvi-1234) |
+| **LinkedIn** | [Sumit Goyal](https://www.linkedin.com/in/sumit-goyal-60264a286/) |
 | **TimeZone** | IST (GMT+05:30) |
 
 </div>
