@@ -169,47 +169,44 @@ We will build a step-by-step pipeline using `sktime`:
 ## 7. Pipeline Overview
 
 
-<div align="center">
-
+```text
+               Tractor Sensors (Vibration + Acoustics + Mechanics)
+                                       │
+                                       ▼
+                      ┌─────────────────────────────┐
+                      │  Step 1 — Data Cleaning     │
+                      │  Fill missing values        │
+                      │  Scale sensor channels      │
+                      └──────────────┬──────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │  Step 2 — Feature Extraction│
+                      │  Rolling window summaries   │
+                      │  (RMS, Kurtosis, FFT bands) │
+                      └──────────────┬──────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │  Step 3 — Detection Model   │
+                      │  Trained on "normal" data   │
+                      │  SubLOF / STRAY / HMM       │
+                      └──────────────┬──────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │  Step 4 — Evaluation        │
+                      │  TPR · FPR                  │
+                      │  Advance Detection Time     │
+                      └──────────────┬──────────────┘
+                                     │
+                                     ▼
+                      ┌─────────────────────────────┐
+                      │  Step 5 — Benchmarking      │
+                      │  Compare all models         │
+                      │  Auto-tune best settings    │
+                      └─────────────────────────────┘
 ```
-  Tractor Sensors (Vibration + Acoustics + Mechanics)
-                          │
-                          ▼
-         ┌─────────────────────────────┐
-         │  Step 1 — Data Cleaning     │
-         │  Fill missing values        │
-         │  Scale sensor channels      │
-         └──────────────┬──────────────┘
-                        │
-                        ▼
-         ┌─────────────────────────────┐
-         │  Step 2 — Feature Extraction│
-         │  Rolling window summaries   │
-         │  (RMS, Kurtosis, FFT bands) │
-         └──────────────┬──────────────┘
-                        │
-                        ▼
-         ┌─────────────────────────────┐
-         │  Step 3 — Detection Model   │
-         │  Trained on "normal" data   │
-         │  SubLOF / STRAY / HMM       │
-         └──────────────┬──────────────┘
-                        │
-                        ▼
-         ┌─────────────────────────────┐
-         │  Step 4 — Evaluation        │
-         │  TPR · FPR                  │
-         │  Advance Detection Time     │
-         └──────────────┬──────────────┘
-                        │
-                        ▼
-         ┌─────────────────────────────┐
-         │  Step 5 — Benchmarking      │
-         │  Compare all models         │
-         │  Auto-tune best settings    │
-         └─────────────────────────────┘
-```
-</div>
 
 ---
 
