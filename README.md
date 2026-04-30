@@ -1,6 +1,11 @@
-# ESoC 2026 — Project Proposal
+<p align="center">
+  <img src="https://github.com/sktime/sktime/raw/main/docs/source/images/sktime-logo-no-text.png" height="80" alt="sktime logo"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://gcos.ai/wp-content/uploads/2024/04/gcos_logo_web.svg" height="80" alt="GC.OS logo"/>
+</p>
 
-## Embedded AI for Predictive Sensor Systems in Agriculture 4.0
+<h1 align="center">ESoC 2026 — Project Proposal</h1>
+<h2 align="center">Embedded AI for Predictive Sensor Systems in Agriculture 4.0</h2>
 
 **Applicant:** Sumit Goyal | **GitHub:** [itvi-1234](https://github.com/itvi-1234) | **Email:** Sumit.goyal.cse@gmail.com
 **Institute:** IIIT Kota | B.Tech CSE (3rd Year) | **Timezone:** IST (UTC+5:30)
