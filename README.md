@@ -1,8 +1,8 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/sktime/sktime/main/docs/source/images/sktime-logo-no-text.png" height="80" alt="sktime"/>
+<div align="center">
+  <img src="https://github.com/sktime/sktime/raw/main/docs/source/images/sktime-logo-no-text.png" height="80" alt="sktime logo">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="gcos_logo.svg" height="80" alt="GC.OS"/>
-</p>
+  <img src="gcos_logo.svg" height="80" alt="GC.OS logo">
+</div>
 
 <h1 align="center">ESoC 2026 — Project Proposal</h1>
 <h3 align="center">Embedded AI for Predictive Sensor Systems in Agriculture 4.0</h3>
